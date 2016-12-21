@@ -1,0 +1,101 @@
+<%@ include file="header.jsp" %> 
+<%@ include file="doctornavbar.jsp" %>
+ <link rel="stylesheet" href="./scripts/omss_table.css">
+
+<script>
+ 
+ 
+
+function submitDate(id){
+	        var spe = $("input#dateTime").val();
+	       //alert(spe+'    '+id);
+	        $.get('appointmentController?type=submitDate', {
+	        	date : spe,
+	        	appointmentId:id
+	        }, function(response) {
+					alert('Updated Successfully');
+	        	 window.location.reload();
+	        });
+	         
+}
+</script>
+
+
+ <center>
+ <br><br>
+ <c:if test="${type=='online' }">
+ <h3><u>Online Appointments</u></h3>
+ </c:if>
+ <c:if test="${type=='walkin' }">
+    <h3><u>Walk-in Appointments</u></h3>
+ </c:if>
+<c:if test="${type=='home' }">
+    <h3><u>Home Appointments</u></h3>
+ </c:if>
+ 
+  <br>
+    
+<table class="omss_grid">
+			<thead>
+				<tr>
+                <th>Patient Name</th>
+                <th>AppintmentType</th>
+                 <c:if test="${type!='online' }">
+                	<th>AppointmentDate</th>
+                </c:if>
+                <th>Description</th>
+                <th>Medical Reports</th>
+                <th>Case Resolution</th>
+				</tr>
+			</thead>
+			<tfoot>
+			</tfoot>
+        <tbody>
+            <c:forEach items="${appointment}" var="doctor">
+                <tr class="alt">
+                    <td><c:out value="${doctor.patientName}" /></td>
+                    <td><c:out value="${doctor.appointmentType}" /></td>
+                     <c:if test="${type=='walkin' }">
+                     <td><c:out value="${doctor.appointmentDate}" /></td>
+                    </c:if>
+                    <c:if test="${(type=='home') and (doctor.appointmentDate!='') }">
+                    <td><c:out value="${doctor.appointmentDate}" /></td>
+                    </c:if>
+                    <c:if test="${(type=='home') and (doctor.appointmentDate=='')}">
+                     <td> 
+<!--                      <input type="datetime-local" name="datet" id="datet" onsubmit="poponload()">  -->
+					<input class="textbox" type="datetime-local" name="dateTime" required="required" onsubmit="submitDate(${doctor.appointmentId});" onchange="submitDate(${doctor.appointmentId});" id="dateTime" min="2016-06-06 04:04:04 AM">
+                     </td>
+                    </c:if>
+                    <td><c:out value="${doctor.description}" /></td>
+                    <td>
+                    <c:if test="${not empty doctor.medicalReports}">
+                    <a target="new" href="${pageContext.request.contextPath}/pdfController?path=<c:out value="${doctor.medicalReports}"/>">View</a>
+                    </c:if>
+                    <c:if test="${ empty doctor.medicalReports}"> No Reports
+                    </c:if>
+                    </td>
+                    <td><a href="caseResolutionController?type=new&patientName=${doctor.patientName}&appointmentId=${doctor.appointmentId}&aptype=${doctor.appointmentType}">Case Resolution</a></td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+    
+<br>
+ <center>
+    <c:if test="${appointment.size()==0 }"><br> No Records Found</c:if>
+</center>
+  <br>
+    <span >${msg} </span>
+<br>
+</center>    
+ 
+</body>
+<br><br>
+<center>
+<button type="button" class="button" value="back" onClick="history.go(-1);">Back</button>
+<!-- <button type="submit" class="button" value="logoffController">Exit</button>&nbsp;&nbsp; -->
+<a class="button" href="logoffController">Exit</a>
+</center>
+
+</html>

@@ -1,0 +1,47 @@
+package omss.util;
+
+public class OMSSPageUtil {
+
+	public static final String HOME_PAGE = "signin.jsp";
+	public static final String WELCOME_PAGE = "welcome.jsp";
+	
+	public static final String PAtientHOME_PAGE = "patientindex.jsp";
+	public static final String doctorHOME_PAGE = "doctorindex.jsp";
+	public static final String adminHOME_PAGE = "adminindex.jsp";
+
+	public static final String OnlineAppointments = "onlineAppointments.jsp";
+	//public static final String walkinAppointments = "walkAppointments.jsp";
+
+	public static final String Appointment_FORM = "appointment.jsp";
+
+	public static final String DOCTOR_ACCOUNT = "account3.jsp";
+
+	public static final String case_resolutionForm = "case-resolution.jsp";
+	public static final String Registration = "omssRegistration.jsp";
+	public static final String ACCOUNT = "account4.jsp";
+	public static final String doctors_feedBackPages = "feedBackList.jsp";
+
+	public static String patient_login_PAGE="signin.jsp";//"login.jsp";
+	public static String patient_view_appointments="viewPatientAppointments.jsp";
+	public static String patientReport="patientReport.jsp";
+	public static String doctor_login_PAGE="signin.jsp";
+
+	public static String admin_login_PAGE="signin.jsp";
+
+	public static String patientList="patientList.jsp";
+	public static String doctorsList="doctorsList.jsp";
+
+	public static String doctorsRegistration="doctorregister.jsp";
+
+	public static String feedbackForm="feedback.jsp";
+	public static String feedbacklist="feedbackList.jsp";
+
+	public static String patient_ACCOUNT="account2.jsp";
+
+	public static String contactUs="contact.jsp";
+	public static String aboutUs="about.jsp";
+	public static String doctor_Reg="doctorregister.jsp";
+	public static String patient_Reg="patientregister.jsp";
+
+
+}

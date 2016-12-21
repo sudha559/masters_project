@@ -1,0 +1,72 @@
+<%@ include file="header.jsp" %>
+<%@ include file="doctornavbar.jsp" %> 
+
+
+
+<center>
+<h4>About Me</h4>
+<form action="doctorController?type=updatedoctor" method="post" >
+
+<table id="">
+<tr>
+<td><label>First Name:</label></td>
+<td><input class="textbox" type="text" id="firstName" name="firstName"  value="${doctor.firstName }" required="required" oninvalid="this.setCustomValidity('Please Enter First Name')"></td>
+</tr>
+
+
+<tr>
+<td><label>Last Name:</label></td>
+<td><input class="textbox" type="text" id="lastName" name="lastName" value="${doctor. lastName}" required="required" oninvalid="this.setCustomValidity('Please Enter Last Name')"/></td>
+</tr>
+
+
+
+<tr>
+<td><label>Specialization:</label></td>
+<td><input class="textbox" type="text" id="specialization" name="specialization" readonly value="${doctor.specializationName }"/></td>
+ </tr>
+
+<tr>
+<td><label>Enter Years of experience:</label></td>
+<td><input class="textbox" type="number" id="experience" name="experience" value="${doctor.experience }" required="required" oninvalid="this.setCustomValidity('Please Enter Your Experience')"/></td>
+</tr>
+
+<tr>
+<td><label>Hospital Name:</label></td>
+<td><input class="textbox" type="text" id="hospitalName" name="hospitalName" value="${doctor.hospitalName }" required="required" oninvalid="this.setCustomValidity('Please Enter Hospital Name')"/></td>
+</tr>
+<tr>
+<td><label>Email Id:</label></td>
+<td><input class="textbox" type="email" id="email" name="email" required="required" readonly value="${doctor.email }" oninvalid="this.setCustomValidity('Please Enter EmailID')"></td>
+</tr>
+
+
+<!-- <tr> -->
+<!-- <td><label>Password:</label></td> -->
+<%-- <td><input class="textbox" type="password" id="password" name="password" required="required" value="${ }" oninvalid="this.setCustomValidity('Please Enter Password')"></td> --%>
+<!-- </tr> -->
+
+
+
+
+<!-- <tr> -->
+<!-- <td colspan="2"> -->
+<!-- <center> -->
+<!-- <button type="submit" value="Submit">Submit</button> -->
+  
+<!-- <button type="reset" value="Reset">Reset</button> -->
+<!--   </center> -->
+<!--   </td> -->
+<!-- </tr> -->
+</table>
+</form>
+</center>
+
+</body>
+<br><br>
+<center>
+<button type="button" class="button" value="back" onClick="history.go(-1);">Back</button>
+<button type="submit" class="button" value="logoffController">Exit</button>&nbsp;&nbsp;
+</center>
+
+</html>

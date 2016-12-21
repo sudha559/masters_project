@@ -1,0 +1,41 @@
+<%@ include file="header.jsp" %> 
+<%@ include file="patientnavbar.jsp" %>
+ 
+<center>
+<h4>About Me</h4>
+<form action="patientController?type=accountDetails" method="get" >
+<table id="">
+<tr>
+<td><label>First Name:</label></td>
+<td><input class="textbox" type="text" id="firstName" name="firstName"  value="${patient.firstName }" required="required" oninvalid="this.setCustomValidity('Please Enter First Name')"></td>
+</tr>
+
+
+<tr>
+<td><label>Last Name:</label></td>
+<td><input class="textbox" type="text" id="lastName" name="lastName" value="${patient. lastName}" required="required" oninvalid="this.setCustomValidity('Please Enter Last Name')"/></td>
+</tr>
+
+
+
+
+<tr>
+<td><label>Email Id:</label></td>
+<td><input class="textbox" type="email" id="email" name="email" required="required" readonly value="${patient.email }" oninvalid="this.setCustomValidity('Please Enter EmailID')"></td>
+</tr>
+
+
+
+
+
+</table>
+</form>
+</center>
+</body>
+<br><br>
+<center>
+<button type="button" class="button" value="back" onClick="history.go(-1);">Back</button>
+<button type="submit" class="button" value="logoffController">Exit</button>&nbsp;&nbsp;
+</center>
+
+</html>

@@ -1,0 +1,152 @@
+<%@ include file="header.jsp" %>
+ <%@ include file="navbar.jsp" %>
+
+
+
+ <script>
+
+ function doctorRegistration(){
+	 var n = $( "input:checked" ).length;
+	 if(n==2){
+		 //alert('checked');
+		 asdoctor();
+	 }else{
+		 otherUsers();
+		 //alert('un-checked');
+	 }
+	 
+ }
+ 
+
+function asdoctor(){
+		var sp = document.getElementById('sp');
+		var hn = document.getElementById('hn');
+		var xp = document.getElementById('xp');
+		
+		sp.setAttribute('class', 'visible');
+		xp.setAttribute('class', 'visible');
+		hn.setAttribute('class', 'visible');
+		
+		$("hospitalName").attr('required',true);
+		$("experience").attr('required',true);
+		$("specializationId").attr('required',true);
+		$("type").val('doctor');
+			
+}
+
+function otherUsers(){
+	var sp = document.getElementById('sp');
+	var hn = document.getElementById('hn');
+	var xp = document.getElementById('xp');
+	
+	sp.setAttribute('class', 'hidden');
+	xp.setAttribute('class', 'hidden');
+	hn.setAttribute('class', 'hidden');
+	$("type").val('patient');
+	$("hospitalName").attr('required',false);
+	$("experience").attr('required',false);
+	$("specializationId").attr('required',false);
+	
+}
+</script>
+
+
+<div id="content">
+<center>
+
+<br>
+<h3> Registration</h3>
+
+<span>${msg}</span>
+
+<form action="registrationController" method="post" onsubmit="return validatePsw()">
+
+<table id="">
+<tr>
+<td><label>First Name:</label></td>
+<td><input class="textbox" type="text" id="firstName" value="${doctor.firstName}${patient.firstName}" name="firstName" required="required" oninvalid="this.setCustomValidity('Please Enter First Name')"></td>
+</tr>
+
+
+<tr>
+<td><label>Last Name:</label></td>
+<td><input class="textbox" type="text" id="lastName" name="lastName" value="${doctor.lastName}${patient.lastName}" required="required" oninvalid="this.setCustomValidity('Please Enter Last Name')"/></td>
+</tr>
+
+<tr>
+<td><label>Gender: </label></td>
+<td> 
+  <input type="radio" name="gender" id="gender" checked="checked" value="male"> Male
+  <input type="radio" name="gender" id="gender" value="female"> Female
+  </td>
+</tr>
+ 
+<tr>
+<td><label>Email Id:</label></td>
+<td><input class="textbox" type="email" id="email" name="email" required="required"  value="${doctor.email}${patient.email}" oninvalid="this.setCustomValidity('Please Enter EmailID')"></td>
+</tr>
+
+<tr>
+<td><label>Password:</label></td>
+<td><input class="textbox" type="password" id="password" name="password" pattern=".{6,}" required title="6 characters minimum" required="required" ></td>
+</tr>
+
+
+<tr>
+<td><label>Confirm Password:</label></td>
+<td><input class="textbox" type="password" id="confirmpassword" pattern=".{6,}" required title="6 characters minimum" name="confirmpassword" required="required"  ></td>
+</tr>
+<tr>
+<td colspan="2">
+&nbsp<input name="type" value="patient" hidden="true"/>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<input type="checkbox" id="cd"  onclick="doctorRegistration()"> &nbsp <span style="font:italic" >If you want to Register as Doctor</span>
+</td>
+</tr>
+
+<tr class="hidden" id="sp">
+<td><label>Specialization:</label></td>
+<td>
+	 <select class="selectbox" name="specializationId" id="specializationId"  >
+				<c:forEach items="${specializations}" var="s">
+	            		  <option value="${s.specializationId }">${s.specializationName}</option>
+	        		</c:forEach>
+				</select>
+</td>
+</tr>
+
+<tr  class="hidden" id="xp">
+<td><label>Enter Years of experience:</label></td>
+<td><input class="textbox" type="number" id="experience" min="0" name="experience"  value="${doctor.experience}"  /></td>
+</tr>
+
+<tr  class="hidden" id="hn">
+<td><label>Hospital Name:</label></td>
+<td><input class="textbox" type="text" id="hospitalName" name="hospitalName"  value="${doctor.hospitalName}"  /></td>
+</tr>
+
+
+<tr>
+<td colspan="2">
+<center>All fields are mandatory.</center>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<center>
+<button type="submit" class="button" type="submit" value="Submit">Submit</button>
+<button type="reset" class="button" value="Reset">Reset</button>
+  </center>
+  </td>
+</tr>
+</table>
+</form>
+
+</center>
+</div>
+
+</body>
+</html>

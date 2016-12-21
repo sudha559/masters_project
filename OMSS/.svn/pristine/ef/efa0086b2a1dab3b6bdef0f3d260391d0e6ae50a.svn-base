@@ -1,0 +1,153 @@
+package omss.controllers;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import omss.domain.Admin;
+import omss.domain.Doctor;
+import omss.domain.Patient;
+import omss.repository.AdminRepository;
+import omss.repository.AppointmentRepository;
+import omss.repository.CaseResolutionRepository;
+import omss.repository.DoctorRepository;
+import omss.repository.PatientRepository;
+import omss.util.OMSSPageUtil;
+
+public class UserController extends HttpServlet{
+
+
+	PatientRepository patientRepository;
+	DoctorRepository doctorRepository;
+	AdminRepository adminRepository;
+	AppointmentRepository appointmentRepository;
+	CaseResolutionRepository caseResolutionRepository;
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String page=OMSSPageUtil.HOME_PAGE;
+		String type=req.getParameter("type");
+		String email=req.getParameter("email");
+		String password=req.getParameter("password");
+		req.setAttribute("msg", "Your credentials miss-matched");
+		req.setAttribute("email", email);
+		System.out.println("type:"+type);
+		if(type.equals("admin")){
+			String secuirtyq=req.getParameter("securityq");//securityq
+			String answer=req.getParameter("answer");
+			System.out.println("secq:"+secuirtyq+", answ:"+answer);
+			Admin a=adminRepository.validateCredentials(email,password);
+			if(a!=null && !answer.isEmpty() && a.getSecurityquestion().equals(secuirtyq) && a.getAnswer().equals(answer)){
+				System.out.println("Admin credentials matched");
+				page=OMSSPageUtil.adminHOME_PAGE;
+				req.getSession().setAttribute("email", email);
+				req.getSession().setAttribute("usertype", "admin");
+				req.getSession().setAttribute("userid", a.getAdminId());
+				req.getSession().setAttribute("username", a.getFirstName()+" "+a.getLastName());
+				req.setAttribute("msg", "Successfully LoggedIn");
+			}else if(a!=null){
+				page=OMSSPageUtil.admin_login_PAGE;
+				req.setAttribute("type", "admin");
+				req.setAttribute("msg", "Secuirty question not matched");
+			}else{
+				
+				page=OMSSPageUtil.admin_login_PAGE;
+				req.setAttribute("type", "admin");
+			}
+			
+		}else if(type.equals("doctor")){
+			Doctor d=doctorRepository.validateCredentials(email,password);
+			if(d!=null){
+				System.out.println("doctor credentials matched");
+				page=OMSSPageUtil.doctorHOME_PAGE;
+				req.getSession().setAttribute("email", email);
+				req.getSession().setAttribute("usertype", "doctor");
+				req.getSession().setAttribute("userid", d.getDoctorId());
+				req.getSession().setAttribute("username", d.getFirstName()+" "+d.getLastName());
+				req.setAttribute("msg", "Successfully LoggedIn");
+			}else{
+				req.setAttribute("type", "doctor");
+				page=OMSSPageUtil.doctor_login_PAGE;
+			}
+			
+		}else{
+			Patient patient=patientRepository.validateCredentials(email,password);
+			if(patient!=null){
+				System.out.println("patient credentials matched");
+				page=OMSSPageUtil.PAtientHOME_PAGE;
+				req.getSession().setAttribute("email", email);
+				req.getSession().setAttribute("usertype", "patient");
+				req.setAttribute("msg", "Successfully LoggedIn");
+
+				req.getSession().setAttribute("userid", patient.getPatientId());
+				req.getSession().setAttribute("username", patient.getFirstName()+" "+patient.getLastName());
+			}else{
+				req.setAttribute("type", "patient");
+				page=OMSSPageUtil.patient_login_PAGE;
+			}
+		}
+		
+		 RequestDispatcher rd=req.getRequestDispatcher(page);  
+         rd.include(req,resp);
+	}
+	
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String type=req.getParameter("type");
+		String userId=req.getParameter("userId");
+		String userName=req.getParameter("userName");
+		
+		try{
+			if(userId==null){
+				req.setAttribute("type", type);
+				RequestDispatcher rd=req.getRequestDispatcher(OMSSPageUtil.doctor_login_PAGE);  
+		         rd.include(req,resp);
+		         return;
+			}else if(type.equals("doctor")){
+				try{
+				doctorRepository.delete(userId);
+				req.setAttribute("msg", "successfully deleted...  "+userName);
+				caseResolutionRepository.delete(" doctorId="+userId);
+				appointmentRepository.deleteByDoctorid(userId);
+				
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				RequestDispatcher rd=req.getRequestDispatcher("doctorController");  
+		         rd.include(req,resp);
+		         return;
+			}else if(type.equals("patient")){
+				try{
+				patientRepository.delete(userId);
+				//appointment,case resolution need to delete
+				req.setAttribute("msg", "successfully deleted...   "+userName);
+				caseResolutionRepository.delete(" patientId="+userId);
+				appointmentRepository.deleteByPatientid(userId);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				RequestDispatcher rd=req.getRequestDispatcher("patientController");  
+		         rd.include(req,resp);
+		         return;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			req.setAttribute("msg", "not deleted");
+		}
+		if(type.equals("doctor")){
+			req.getRequestDispatcher("doctorController").forward(req, resp);
+		}else if(type.equals("patient")){
+			req.getRequestDispatcher("patientController").forward(req, resp);
+		}
+	}
+	
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		super.doDelete(req, resp);
+	}
+}

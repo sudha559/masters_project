@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>A demonstration of how to access a Local Datetime field</h3>
+
+<input type="datetime-local" id="myLocalDate" value="2016-07-16T15:25:33">
+<!-- value="2016-07-16T15:25:33" -->
+<p>Click the button to get the local date and time of the datetime field.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p><strong>Note:</strong> input elements with type="datetime-local" do not show as any datetime field/calendar in Firefox.</p>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var x = document.getElementById("myLocalDate").value;
+ var d = Date.parse(x);
+var toDayDate = new Date();
+
+var d1 = new Date(d);
+alert(d1.getHours() );
+if(d1 <=  toDayDate){
+	alert('Please select next date');
+	return false;
+}else{
+	if(d1.getHours()>=7 || d1.getHours()<=18 ){
+		alert('Please select time between 7AM to 6PM');
+		return false;	
+	}
+}
+   //toDayDate.getDate();
+   //d1.getDate();
+
+    document.getElementById("demo").innerHTML = d1;
+}
+</script>
+</body>
+</html>
+

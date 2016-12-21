@@ -1,0 +1,30 @@
+<%@ include file="header.jsp" %>
+ <%@ include file="patientnavbar.jsp" %>
+ 
+<div id="content">
+
+<center>
+CASE RESOLUTION
+<form action="">
+
+<table id="">
+
+<tr><td><label>Appointment ID:</label></td><td><input class="textbox" type="text"></td>
+</tr>
+
+
+<tr>
+<td><label>Download Prescription:</label></td>
+ <td><a href="prescription.pdf" target="_blank">Prescription</a></td></tr>
+
+ 
+
+</table>
+</form>
+</center>
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+function validatePsw() {
+        var resultFm = true;
+        if ($("#password").val() != $("#confirmpassword").val()) {
+        	document.getElementById("password").style.borderColor = "#E34234";
+            document.getElementById("confirmpassword").style.borderColor = "#E34234";
+            alert("Passwords do not match.");
+            resultFm=false;
+        }
+        return resultFm; 
+}
+
+(function($) {
+	$(document).ready(function() {
+
+
+		$("#omss_menu1").omssMaker({
+			title : "Menu",
+			format : "multitoggle"
+		});
+
+	});
+})(jQuery);
+
+
+
+(function($) {
+
+	$.fn.omssMaker = function(options) {
+
+		var omss_menu = $(this), settings = $.extend({
+			title : "Menu",
+			format : "dropdown",
+			sticky : false
+		}, options);
+
+		return this.each(function() {
+			omss_menu.prepend('<div id="omss_menu-button">' + settings.title
+					+ '</div>');
+			$(this).find("#omss_menu-button").on('click', function() {
+				$(this).toggleClass('menu-opened');
+				var omssmainmenu = $(this).next('ul');
+				if (omssmainmenu.hasClass('open')) {
+					omssmainmenu.hide().removeClass('open');
+				} else {
+					omssmainmenu.show().addClass('open');
+					if (settings.format === "dropdown") {
+						omssmainmenu.find('ul').show();
+					}
+				}
+			});
+
+			omss_menu.find('li ul').parent().addClass('has-sub');
+
+			multiTg = function() {
+				omss_menu.find(".has-sub").prepend(
+						'<span class="submenu-button"></span>');
+				omss_menu.find('.submenu-button').on('click', function() {
+					$(this).toggleClass('submenu-opened');
+					if ($(this).siblings('ul').hasClass('open')) {
+						$(this).siblings('ul').removeClass('open').hide();
+					} else {
+						$(this).siblings('ul').addClass('open').show();
+					}
+				});
+			};
+
+			if (settings.format === 'multitoggle')
+				multiTg();
+			else
+				omss_menu.addClass('dropdown');
+
+			if (settings.sticky === true)
+				omss_menu.css('position', 'fixed');
+
+			resizeFix = function() {
+				if ($(window).width() > 768) {
+					omss_menu.find('ul').show();
+				}
+
+				if ($(window).width() <= 768) {
+					omss_menu.find('ul').hide().removeClass('open');
+				}
+			};
+			resizeFix();
+			return $(window).on('resize', resizeFix);
+
+		});
+	};
+})(jQuery);
+
+

@@ -1,0 +1,67 @@
+ <%@ include file="header.jsp" %>
+ <%@ include file="navbar.jsp" %>
+ 
+<div id="content">
+<center>
+<c:set var="fmURL" scope="session" value="userController?type=doctor" />
+<c:choose>
+    <c:when test="${type=='doctor'}">
+		<h3>Doctor Login</h3>
+	<c:set var="fmURL" scope="session" value="userController?type=doctor" />       
+    </c:when>
+    <c:when test="${type=='patient'}">
+	    <h3>Patient Login</h3>
+	    <c:set var="fmURL" scope="session" value="userController?type=patient" />
+    </c:when>
+    <c:otherwise>
+        <h3>Admin Login</h3>
+        <c:set var="fmURL" scope="session" value="userController?type=admin" />
+    </c:otherwise>
+</c:choose>
+<form action="${fmURL}" method="post" >
+
+
+<table id="">
+<c:if test="${type=='admin'}">
+<tr>
+<td><label>Name:</label></td>
+<td><input class="textbox" type="name" id="name" name="name"  value="${name }" required="required" placeholder="Name" /></td>
+</tr>
+</c:if>
+
+<tr>
+<td><label>Email:</label></td>
+<td><input class="textbox" type="email" id="email" name="email"  value="${email }" required="required" placeholder="e-mail id" /></td>
+</tr>
+
+ 
+<tr>
+<td><label>Password:</label></td>
+<td><input class="textbox" type="password" id="password" name="password" required="required" placeholder="password" /></td>
+</tr>
+<tr>
+<td colspan="2">
+<center><span> ${msg }</span></center>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<center>
+<button type="submit" class="button" type="submit" value="Submit">Submit</button>
+<button type="reset" class="button" value="Reset">Reset</button>
+  </center>
+  </td>
+</tr>
+</table>
+
+</form>
+</div>
+
+
+
+
+
+
+</body>
+</html>
+

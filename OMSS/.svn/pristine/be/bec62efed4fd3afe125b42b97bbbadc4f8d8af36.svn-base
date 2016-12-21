@@ -1,0 +1,85 @@
+ <%@ include file="header.jsp" %>
+ <%@ include file="navbar.jsp" %>
+ 
+<div id="content">
+<center>
+<c:set var="fmURL" scope="session" value="userController?type=doctor" />
+<c:choose>
+    <c:when test="${type=='doctor'}">
+		<h3>Doctor Login</h3>
+	<c:set var="fmURL" scope="session" value="userController?type=doctor" />       
+    </c:when>
+    <c:when test="${type=='patient'}">
+	    <h3>Patient Login</h3>
+	    <c:set var="fmURL" scope="session" value="userController?type=patient" />
+    </c:when>
+    <c:otherwise>
+        <h3>Admin Login</h3>
+        <c:set var="fmURL" scope="session" value="userController?type=admin" />
+    </c:otherwise>
+</c:choose>
+<form action="${fmURL}" method="post" >
+
+
+<table id="">
+
+<tr>
+<td><label>Email:</label></td>
+<td><input class="textbox" type="email" id="email" name="email"  value="${email }" required="required" placeholder="e-mail id" /></td>
+</tr>
+
+ 
+<tr>
+<td><label>Password:</label></td>
+<td><input class="textbox" type="password" id="password" name="password" required="required" placeholder="password" /></td>
+</tr>
+<tr>
+
+<c:if test="${type=='admin'}">
+<tr>
+<td>
+<label> Security Question:</label>
+</td>
+<td>
+<select class="selectbox" type="text" name="securityq" id="securityq" >
+<optgroup label="">
+	<option>1) What is your pet name?</option>
+	<option>2) What is your first car name?</option>
+	<option>3) What is your date of birth?</option>
+	<option>4) What is your place of birth?</option>
+	<option>5) What is your favorite car?</option>
+	<option>6) Who is your favorite teacher?</option>
+</optgroup>
+</td>
+</tr>
+<tr>
+<td><label>Answer:</label></td>
+<td><input class="textbox" type="name" id="answer" name="answer"  placeholder="Answer" /></td>
+</tr>
+</c:if>
+
+<td colspan="2">
+<center><span> ${msg }</span></center>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<center>
+<button type="submit" class="button" type="submit" value="Submit">Submit</button>
+<button type="reset" class="button" value="Reset">Reset</button>
+  </center>
+  </td>
+</tr>
+</table>
+
+</form>
+</div>
+
+
+
+
+
+
+</body>
+</html>
+

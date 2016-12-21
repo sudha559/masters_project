@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+   <servlet>
+    <servlet-name>registrationController</servlet-name>
+    <servlet-class>omss.controllers.RegistrationController</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>userController</servlet-name>
+    <servlet-class>omss.controllers.UserController</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>doctorController</servlet-name>
+    <servlet-class>omss.controllers.DoctorController</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>patientController</servlet-name>
+    <servlet-class>omss.controllers.PatientController</servlet-class>
+  </servlet>
+  
+    <servlet>
+    <servlet-name>appointmentController</servlet-name>
+    <servlet-class>omss.controllers.AppointmentController</servlet-class>
+  </servlet>
+  
+
+  <servlet>
+    <servlet-name>pdfController</servlet-name>
+    <servlet-class>omss.controllers.PdfController</servlet-class>
+  </servlet>
+  
+     <servlet>
+     	<servlet-name>caseResolutionController</servlet-name>
+     	<servlet-class>omss.controllers.CaseResolutionController</servlet-class>
+     </servlet>
+     
+     <servlet>
+     	<servlet-name>feedbackController</servlet-name>
+     	<servlet-class>omss.controllers.FeedBackController</servlet-class>
+     </servlet>
+     
+     <servlet>
+     	<servlet-name>logoffController</servlet-name>
+     	<servlet-class>omss.controllers.LogoffController</servlet-class>
+     </servlet>
+     
+     
+     <servlet>
+     	<servlet-name>contactUsController</servlet-name>
+     	<servlet-class>omss.controllers.ContactUsController</servlet-class>
+     </servlet>
+     
+     <servlet>
+     	<servlet-name>aboutUsController</servlet-name>
+     	<servlet-class>omss.controllers.AboutUsController</servlet-class>
+     </servlet>
+     
+     <servlet>
+     	<servlet-name>adminController</servlet-name>
+     	<servlet-class>omss.controllers.AdminController</servlet-class>
+     </servlet>
+     
+     
+     
+     
+     <servlet-mapping>
+     	<servlet-name>logoffController</servlet-name>
+     	<url-pattern>/logoffController</url-pattern>
+     </servlet-mapping>
+     
+  <servlet-mapping>
+	  	<servlet-name>registrationController</servlet-name>
+	  	<url-pattern>/registrationController</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+	  	<servlet-name>userController</servlet-name>
+	  	<url-pattern>/userController</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  		<servlet-name>contactUsController</servlet-name>
+  		<url-pattern>/contactUsController</url-pattern>
+  </servlet-mapping>
+     
+   <servlet-mapping>
+   		<servlet-name>aboutUsController</servlet-name>
+   		<url-pattern>/aboutUsController</url-pattern>
+   </servlet-mapping>  
+  <servlet-mapping>
+	  	<servlet-name>doctorController</servlet-name>
+	  	<url-pattern>/doctorController</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+	  	<servlet-name>patientController</servlet-name>
+	  	<url-pattern>/patientController</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  		<servlet-name>appointmentController</servlet-name>
+  		<url-pattern>/appointmentController</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>pdfController</servlet-name>
+  	<url-pattern>/pdfController</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>caseResolutionController</servlet-name>
+  	<url-pattern>/caseResolutionController</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>feedbackController</servlet-name>
+  	<url-pattern>/feedbackController</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>adminController</servlet-name>
+  	<url-pattern>/adminController</url-pattern>
+  </servlet-mapping>
+  
+  <welcome-file-list>
+<!--     <welcome-file>welcome.html</welcome-file> -->
+<welcome-file>signin.jsp</welcome-file>
+  </welcome-file-list>
+  
+</web-app>

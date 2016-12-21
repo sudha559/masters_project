@@ -1,0 +1,136 @@
+<%@ include file="header.jsp" %>
+
+<c:choose>
+    <c:when test="${type=='doctor'}">
+    	<%@ include file="doctornavbar.jsp" %> 
+    </c:when>
+    <c:when test="${type=='patient'}">
+    	<%@ include file="patientnavbar.jsp" %> 
+    </c:when>
+    <c:when test="${type=='admin'}">
+    	<%@ include file="adminNavbar.jsp" %> 
+    </c:when>
+    <c:otherwise>
+	<%@ include file="navbar.jsp" %>
+    </c:otherwise>
+</c:choose>
+
+
+<center>
+<c:if test="${type=='admin'}">
+<h2> Admin Profile</h2>
+<c:set var="fmurl" value="adminController?type=changePsw" />
+</c:if>
+<c:if test="${type=='doctor'}">
+<h2> Doctor Profile</h2>
+<c:set var="fmurl" value="doctorController?type=changePsw" />
+</c:if>
+<c:if test="${type=='patient'}">
+<h2> Patient Profile</h2>
+<c:set var="fmurl" value="patientController?type=changePsw" />
+</c:if>
+
+
+
+<form class="form" action="${fmurl}" method="post"    onsubmit="return validatePsw()"  style="padding-right: 47px">
+<table id="">
+
+<tr>
+<td><label>First Name:</label></td>
+<td><input class="textbox" type="text" id="firstName" name="firstName"  value="${doctor.firstName}  ${patient.firstName} ${admin.firstName}" required="required" oninvalid="this.setCustomValidity('Please Enter First Name')"></td>
+</tr>
+
+
+<tr>
+<td><label>Last Name:</label></td>
+<td><input class="textbox" type="text" id="lastName" name="lastName" value="${doctor.lastName} ${patient.lastName } ${admin.lastName}" required="required" oninvalid="this.setCustomValidity('Please Enter Last Name')"/></td>
+</tr>
+
+
+<c:if test="${type=='doctor'}">
+<tr>
+<td><label>Specialization:</label></td>
+<td><input class="textbox" type="text" id="specialization" name="specialization" readonly value="${doctor.specializationName }"/></td>
+ </tr>
+
+<tr>
+<td><label>Enter Years of experience:</label></td>
+<td><input class="textbox" type="number" id="experience" name="experience" value="${doctor.experience }" required="required" oninvalid="this.setCustomValidity('Please Enter Your Experience')"/></td>
+</tr>
+
+<tr>
+<td><label>Hospital Name:</label></td>
+<td><input class="textbox" type="text" id="hospitalName" name="hospitalName" value="${doctor.hospitalName }" required="required" oninvalid="this.setCustomValidity('Please Enter Hospital Name')"/></td>
+</tr>
+</c:if>
+<tr>
+<td><label>Email Id:</label></td>
+<td><input class="textbox" type="email" id="email" name="email" required="required" readonly value="${doctor.email} ${patient.email } ${admin.email}" oninvalid="this.setCustomValidity('Please Enter EmailID')"></td>
+</tr>
+
+<tr id="p" class="hidden">
+<td><label >Password:</label></td>
+<td><input class="textbox" type="password" id="password" name="password" required="required"  pattern=".{6,}" required title="6 characters minimum"  value="" ></td>
+</tr>
+<tr id="cp" class="hidden">
+<td><label >Confirm Password:</label></td>
+<td><input style="" class="textbox" type="password" id="confirmpassword" name="confirmpassword" required="required" pattern=".{6,}" required title="6 characters minimum"  value="" ></td>
+</tr>
+
+<tr id="cpb" class="hidden">
+<td colspan="2">
+<center>
+<button type="submit" class="button" type="submit" value="Submit">Submit</button>
+<button type="button" class="button" value="back" onClick="cancel()">Cancel</button>
+  </center>
+  </td>
+</tr>
+</table>
+</form>
+  
+
+ 
+
+ 
+<button id="cb" class="button" name="changePwd" title="If You Want to Change Password" onclick="showP()">Change Password</button>
+</center>
+<script>
+
+function showP(){
+		var p = document.getElementById('p');
+		var cp = document.getElementById('cp');
+		var cpb = document.getElementById('cpb');
+		var cb = document.getElementById('cb');
+		
+		p.setAttribute('class', 'visible');
+		cp.setAttribute('class', 'visible');
+		cpb.setAttribute('class', 'visible');
+		
+		cb.setAttribute('class', 'hidden');
+	
+}
+
+function cancel(){
+	var p = document.getElementById('p');
+	var cp = document.getElementById('cp');
+	var cpb = document.getElementById('cpb');
+	var cb = document.getElementById('cb');
+	
+	p.setAttribute('class', 'hidden');
+	cp.setAttribute('class', 'hidden');
+	cpb.setAttribute('class', 'hidden');
+	
+	cb.setAttribute('class', 'visible');
+	cb.setAttribute('class', 'button');
+}
+</script>
+</body>
+<br><br>
+<center>
+<button type="button" class="button" value="back" onClick="history.go(-1);">Back</button>
+<!-- <button type="submit" class="button" value="logoffController">Exit</button>&nbsp;&nbsp; -->
+ <a class="button" href="logoffController">Exit</a>
+</center>
+
+
+</html>

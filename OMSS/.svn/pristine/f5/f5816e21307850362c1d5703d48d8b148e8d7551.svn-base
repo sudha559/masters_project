@@ -1,0 +1,192 @@
+package omss.controllers;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import com.google.gson.Gson;
+
+import omss.domain.Appointment;
+import omss.domain.Doctor;
+import omss.domain.Patient;
+import omss.domain.Specialization;
+import omss.repository.AppointmentRepository;
+import omss.repository.DoctorRepository;
+import omss.repository.PatientRepository;
+import omss.repository.SpecializationRepository;
+import omss.util.OMSSPageUtil;
+
+public class AppointmentController extends HttpServlet{
+
+	 AppointmentRepository  appointmentRepository;
+	 SpecializationRepository  specializationRepository;
+	 DoctorRepository doctorRepository;
+	 PatientRepository patientRepository;
+		
+	
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String type=req.getParameter("type");
+		System.out.println("appointment do get is calling type:"+type);
+		String page="";
+		List<Appointment> appointments=null;
+		long userid = (Long)req.getSession().getAttribute("userid");
+		System.out.println("doctorid:"+userid);
+		if(type.equalsIgnoreCase("online")){
+			 //appointments=appointmentRepository.findByOnlineAppointmentByDoctor(userid);
+			 appointments=appointmentRepository.findAppointmentByDoctor(userid,"Online");
+			 page=OMSSPageUtil.OnlineAppointments;
+				req.setAttribute("type", "online");
+		}else if(type.equalsIgnoreCase("walkin")){
+			 //appointments=appointmentRepository.findByWalkInAppointmentByDoctor(userid);
+			 appointments=appointmentRepository.findAppointmentByDoctor(userid,"Walkin");
+			 page=OMSSPageUtil.OnlineAppointments;
+			 req.setAttribute("type", "walkin");
+		}else if(type.equalsIgnoreCase("home")){
+			 appointments=appointmentRepository.findAppointmentByDoctor(userid,"Home");
+			 page=OMSSPageUtil.OnlineAppointments;
+			 req.setAttribute("type", "home");
+		}else if(type.equals("new")){
+			System.out.println("new Appointment_FORM ");
+			page=OMSSPageUtil.Appointment_FORM;
+			req.setAttribute("specializations", specializationRepository.getAll());
+		}else if(type.equals("patientAppointments")){
+			System.out.println("patient Appointment list ");
+			 appointments=appointmentRepository.findAppointmentsByPatient(userid);
+			 page=OMSSPageUtil.patient_view_appointments;
+		}else if(type.equals("submitDate")){
+			long id=Long.valueOf(req.getParameter("appointmentId"));
+			String date=req.getParameter("date");
+			System.out.println("date:"+date);
+			System.out.println("id:"+id);
+			try {
+				appointmentRepository.update(id,date);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			appointments=appointmentRepository.findAppointmentByDoctor(userid,"Home");
+			 page=OMSSPageUtil.OnlineAppointments;
+			 req.setAttribute("type", "home");
+		}else if(type.equals("specilization")){
+			 List<Specialization> sp=specializationRepository.getAll();
+			String json = new Gson().toJson(sp);
+			 System.out.println("json:"+json);
+			 resp.setContentType("application/json");
+	         resp.getWriter().write(json);
+		}
+			
+		req.setAttribute("appointment", appointments);
+		RequestDispatcher dispatcher=req.getRequestDispatcher(page);  
+        dispatcher.include(req,resp);
+	}
+	
+	
+	
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String type=req.getParameter("type");
+		String type1=(String) req.getAttribute("type");
+		
+		System.out.println("appointment controller post is calling:"+type+","+type1);
+		if(type!=null){
+			//toCallOnlineorWalkIn(req,resp);
+			doGet(req, resp);
+			return;
+		}
+		SimpleDateFormat sdf=new SimpleDateFormat("MM-DD-yyyy");
+		   boolean isMultipart = ServletFileUpload.isMultipartContent(req);
+		   Appointment appointment=new Appointment();
+				 String doctorFiled="";
+	        if (isMultipart) {
+	        	FileItemFactory factory = new DiskFileItemFactory();
+	        	ServletFileUpload upload = new ServletFileUpload(factory);
+	        	try {
+	            	// Parse the request
+	            	List items = upload.parseRequest(req);
+	                Iterator iterator = items.iterator();
+	                while (iterator.hasNext()) {
+	                    FileItem item = (FileItem) iterator.next();
+	                    if (item.isFormField()) {
+
+	                        String name = item.getFieldName();
+	                        String value = item.getString();
+	                        if(name.equals("dateTime"))
+	                        	appointment.setAppointmentDate(value);
+	                        if(name.equals("description"))
+	                        	appointment.setDescription(value);
+	                        if(name.equals("apType"))
+	                        	appointment.setAppointmentType(value);
+	                		if(name.equals("doctor"))
+	                			doctorFiled=value;
+
+	                      } 
+	                    
+	                    if (!item.isFormField()) {
+	                        String fileName = item.getName();	 
+	                        String root = getServletContext().getRealPath("/");
+	                        String folder="./uploads/"+req.getSession().getAttribute("userid")+sdf.format(new Date());
+	                		File path=new File(folder);
+	                		
+	                        if (!path.exists()) {
+	                            boolean status = path.mkdirs();
+	                        }
+	 
+	                        File uploadedFile = new File(path + "/" + fileName);
+	                        System.out.println(uploadedFile.getAbsolutePath());
+	                        item.write(uploadedFile);
+	                        appointment.setMedicalReports(folder+"/"+fileName);
+	                    }
+	                }
+	            } catch (FileUploadException e) {
+	                e.printStackTrace();
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+		
+		long patientId = (Long)req.getSession().getAttribute("userid");
+		System.out.println("doctor:"+req.getParameter("doctor"));
+		System.out.println("doctorFiled:"+doctorFiled);
+		Doctor doctor=doctorRepository.findById(doctorFiled);
+		if(doctor!=null){
+			System.out.println("doctor:"+doctor);
+			System.out.println("doctor:"+doctor.getDoctorId()+","+doctor.getName());
+			appointment.setDoctorId(doctor.getDoctorId());
+			appointment.setDoctorName(doctor.getName());
+		}
+		
+		Patient patient=patientRepository.findById(patientId);
+		//appointment.setFinalReport(req.getParameter());
+		//appointment.setMedicalReports(req.getParameter("medicalReport"));
+		appointment.setPatientId((Long)req.getSession().getAttribute("userid"));
+		appointment.setPatientName((String)req.getSession().getAttribute("username"));
+		appointmentRepository.save(appointment);
+		req.setAttribute("msg", "Your appointment Scheduled Successfully");
+		RequestDispatcher dispatcher=req.getRequestDispatcher("appointmentController?type=patientAppointments");  
+        dispatcher.include(req,resp);
+	}
+	
+	 
+
+
+
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	}
+}

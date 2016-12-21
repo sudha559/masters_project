@@ -1,0 +1,57 @@
+<%@ include file="header.jsp" %>
+ <%@ include file="adminNavbar.jsp" %> 
+
+
+
+<center><h2>Add user as Admin</h2>
+
+<form action="${fmURL}" method="post" onsubmit="return validatePsw()">
+
+<table id="">
+<tr>
+<td><label>First Name:</label></td>
+<td><input class="textbox" type="text" id="firstName" value="${doctor.firstName}${patient.firstName}" name="firstName" required="required" oninvalid="this.setCustomValidity('Please Enter First Name')"></td>
+</tr>
+
+
+<tr>
+<td><label>Last Name:</label></td>
+<td><input class="textbox" type="text" id="lastName" name="lastName" value="${doctor.lastName}${patient.lastName}" required="required" oninvalid="this.setCustomValidity('Please Enter Last Name')"/></td>
+</tr>
+
+ 
+<tr>
+<td><label>Email Id:</label></td>
+<td><input class="textbox" type="email" id="email" name="email" required="required"  value="${doctor.email}${patient.email}" oninvalid="this.setCustomValidity('Please Enter EmailID')"></td>
+</tr>
+
+<tr>
+<td><label>Password:</label></td>
+<td><input class="textbox" type="password" id="password" name="password" pattern=".{6,}" required title="6 characters minimum" required="required" ></td>
+</tr>
+
+
+<tr>
+<td><label>Confirm Password:</label></td>
+<td><input class="textbox" type="password" id="confirmpassword" pattern=".{6,}" required title="6 characters minimum" name="confirmpassword" required="required"  ></td>
+</tr>
+
+<tr>
+<td colspan="2">
+<center>All fields are mandatory.</center>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<center>
+<button type="submit" class="button" type="submit" value="Submit">Submit</button>
+<button type="reset" class="button" value="Reset">Reset</button>
+  </center>
+  </td>
+</tr>
+</table>
+</form>
+</center>
+</body>
+
+<html>

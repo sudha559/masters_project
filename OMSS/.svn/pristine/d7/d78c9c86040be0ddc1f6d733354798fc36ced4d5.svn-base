@@ -1,0 +1,116 @@
+ <%@ include file="header.jsp" %>
+ <%@ include file="navbar.jsp" %>
+ 
+ 
+ <script>
+
+function asAdmin(){
+		var p = document.getElementById('ans');
+		var cp = document.getElementById('sq');
+		
+		p.setAttribute('class', 'visible');
+		cp.setAttribute('class', 'visible');
+		
+	
+}
+
+function otherUsers(){
+	var p = document.getElementById('ans');
+	var cp = document.getElementById('sq');
+	
+	p.setAttribute('class', 'hidden');
+	cp.setAttribute('class', 'hidden');
+	
+}
+</script>
+
+<div id="content">
+
+
+<div id="signin" style="float:right;padding-right:30px;">
+<br>
+<center>
+<h3>SignIn</h3>
+</center>
+
+<form action="userController" method="post" >
+
+<table id="">
+
+<tr>
+<td><label>Login as: </label></td>
+<td> 
+  <input type="radio" name="type" id="type" value="admin" onclick="asAdmin()"> Admin
+  <input type="radio" name="type" id="type"  checked="checked" value="doctor" onclick="otherUsers()"> Doctor
+  <input type="radio" name="type" id="type" value="patient" onclick="otherUsers()"> Patient
+  </td>
+</tr>
+
+<tr>
+<td><label>Email:</label></td>
+<td><input class="textbox" type="email" id="email" name="email"  value="${email }" required="required" placeholder="e-mail id" /></td>
+</tr>
+
+ 
+<tr>
+<td><label>Password:</label></td>
+<td><input class="textbox" type="password" id="password" name="password" required="required" placeholder="password" /></td>
+</tr>
+<tr>
+
+<tr id="sq" class="hidden">
+<td>
+<label> Security Question:</label>
+</td>
+<td>
+<select class="selectbox" type="text" name="securityq" id="securityq" >
+<optgroup label="">
+	<option>1) What is your pet name?</option>
+	<option>2) What is your first car name?</option>
+	<option>3) What is your date of birth?</option>
+	<option>4) What is your place of birth?</option>
+	<option>5) What is your favorite car?</option>
+	<option>6) Who is your favorite teacher?</option>
+</optgroup>
+</select>
+</td>
+</tr>
+
+<tr id="ans" class="hidden">
+<td><label>Answer:</label></td>
+<td><input class="textbox" type="name" id="answer" name="answer"  placeholder="Answer" /></td>
+</tr>
+ 
+
+<td colspan="2">
+<center><span> ${msg }</span></center>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<center>
+<button type="submit" class="button" type="submit" value="Submit">Submit</button>
+<button type="reset" class="button" value="Reset">Reset</button>
+  </center>
+  </td>
+</tr>
+</table>
+
+</form>
+</div>
+
+ 
+<div id="main" style="float:left;padding-left:30px;">
+<br>
+<span>
+<h2>Welcome to OMSS..!!</h2>
+</span>
+<br>
+<img alt="" src="./images/omsslogo.png" width="300" height="150">
+</div>
+
+</div>
+
+</body>
+</html>
+

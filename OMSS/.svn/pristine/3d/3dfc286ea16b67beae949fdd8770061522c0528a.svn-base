@@ -1,0 +1,185 @@
+<%@ include file="header.jsp" %>
+ <%@ include file="navbar.jsp" %>
+
+
+
+ <script>
+
+ function doctorRegistration(){
+	 
+		var sp = document.getElementById('sp');
+		var hn = document.getElementById('hn');
+		var xp = document.getElementById('xp');
+		
+		var bg= document.getElementById('bg');
+		var bm = document.getElementById('bm');
+		
+		bg.setAttribute('class', 'hidden');
+		bm.setAttribute('class', 'hidden');
+		
+		sp.setAttribute('class', 'visible');
+		xp.setAttribute('class', 'visible');
+		hn.setAttribute('class', 'visible');
+		
+		$("hospitalName").attr('required',true);
+		$("experience").attr('required',true);
+		$("specializationId").attr('required',true);
+		
+		$("bloodgroup").attr('required',false);
+		$("bmi").attr('required',false);
+		
+		$("type").val('doctor');
+			
+}
+
+function otherUsers(){
+	var sp = document.getElementById('sp');
+	var hn = document.getElementById('hn');
+	var xp = document.getElementById('xp');
+	
+	var bg= document.getElementById('bg');
+	var bm = document.getElementById('bm');
+	
+	sp.setAttribute('class', 'hidden');
+	xp.setAttribute('class', 'hidden');
+	hn.setAttribute('class', 'hidden');
+	
+	bg.setAttribute('class', 'visible');
+	bm.setAttribute('class', 'visible');
+	
+	$("type").val('patient');
+	$("hospitalName").attr('required',false);
+	$("experience").attr('required',false);
+	$("specializationId").attr('required',false);
+	
+	$("bloodgroup").attr('required',true);
+	$("bmi").attr('required',true);
+	
+}
+</script>
+
+
+<div id="content">
+<center>
+
+<br>
+<h3> Registration</h3>
+
+<span>${msg}</span>
+
+<form action="registrationController" method="post" onsubmit="return validatePsw()">
+
+<table id="">
+<tr>
+<td><label>First Name:</label></td>
+<td><input class="textbox" type="text" id="firstName" value="${doctor.firstName}${patient.firstName}" name="firstName" required="required" oninvalid="this.setCustomValidity('Please Enter First Name')"></td>
+</tr>
+
+
+<tr>
+<td><label>Last Name:</label></td>
+<td><input class="textbox" type="text" id="lastName" name="lastName" value="${doctor.lastName}${patient.lastName}" required="required" oninvalid="this.setCustomValidity('Please Enter Last Name')"/></td>
+</tr>
+
+<tr>
+<td><label>Gender: </label></td>
+<td> 
+  <input type="radio" name="gender" id="gender" checked="checked" value="male"> Male
+  <input type="radio" name="gender" id="gender" value="female"> Female
+  </td>
+</tr>
+ 
+<tr>
+<td><label>Email Id:</label></td>
+<td><input class="textbox" type="email" id="email" name="email" required="required"  value="${doctor.email}${patient.email}" oninvalid="this.setCustomValidity('Please Enter EmailID')"></td>
+</tr>
+
+<tr>
+<td><label>Password:</label></td>
+<td><input class="textbox" type="password" id="password" name="password" pattern=".{6,}" required title="6 characters minimum" required="required" ></td>
+</tr>
+
+
+<tr>
+<td><label>Confirm Password:</label></td>
+<td><input class="textbox" type="password" id="confirmpassword" pattern=".{6,}" required title="6 characters minimum" name="confirmpassword" required="required"  ></td>
+</tr>
+<tr>
+<td colspan="2">
+&nbsp<input name="type" value="patient" hidden="true"/>
+</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<!-- <input type="checkbox" id="cd"  onclick="doctorRegistration()"> &nbsp <span style="font:italic" >If you want to Register as Doctor</span> -->
+  <input type="radio" name="doct" id="doct" onclick="doctorRegistration()" value="doctor">Doctor
+  <input type="radio" name="doct" id="doct" onclick="otherUsers()" value="patient"> Patient
+
+</td>
+</tr>
+
+<tr class="hidden" id="sp">
+<td><label>Specialization:</label></td>
+<td>
+	 <select class="selectbox" name="specializationId" id="specializationId"  >
+				<c:forEach items="${specializations}" var="s">
+	            		  <option value="${s.specializationId }">${s.specializationName}</option>
+	        		</c:forEach>
+				</select>
+</td>
+</tr>
+
+<tr  class="hidden" id="xp">
+<td><label>Enter Years of experience:</label></td>
+<td><input class="textbox" type="number" id="experience" min="0" name="experience"  value="${doctor.experience}"  /></td>
+</tr>
+
+<tr  class="hidden" id="hn">
+<td><label>Hospital Name:</label></td>
+<td><input class="textbox" type="text" id="hospitalName" name="hospitalName"  value="${doctor.hospitalName}"  /></td>
+</tr>
+
+
+<tr  class="hidden" id="bm">
+<td><label>Enter BMI:</label></td>
+<td><input class="textbox" type="number" id="experience" min="0" name="bmi" id="bmi"  value="${patient.bmi}"  /></td>
+</tr>
+
+<tr  class="hidden" id="bg">
+<td><label> Blood Group:</label></td>
+<td>
+ <select class="selectbox" name="bloodgroup" id="bloodgroup"  >
+				<option>O+ve</option>
+				<option>O-ve</option>
+				<option>A+ve</option>
+				<option>A-ve</option>
+				<option>B+ve</option>
+				<option>B-ve</option>
+				<option>AB+ve</option>
+				<option>AB-ve</option>
+ </select>
+</td>
+</tr>
+
+
+<tr>
+<td colspan="2">
+<center>All fields are mandatory.</center>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<center>
+<button type="submit" class="button" type="submit" value="Submit">Submit</button>
+<button type="reset" class="button" value="Reset">Reset</button>
+  </center>
+  </td>
+</tr>
+</table>
+</form>
+
+</center>
+</div>
+
+</body>
+</html>

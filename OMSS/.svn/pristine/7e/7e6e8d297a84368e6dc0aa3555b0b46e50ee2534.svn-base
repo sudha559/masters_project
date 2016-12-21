@@ -1,0 +1,41 @@
+<%@ include file="header.jsp" %> 
+<%@ include file="doctornavbar.jsp" %>
+<link rel="stylesheet" href="./scripts/omss_table.css">
+
+
+<span >${msg} </span>
+<br>
+
+ <center>
+ <h3><u>Walk-in Appointments</u></h3>
+
+
+<table class="omss_grid">
+			<thead>
+				<tr>
+                <th>Patient Name</th>
+                <th>AppintmentType</th>
+                <th>Description</th>
+                <th>Medical Reports</th>
+                <th>Case Resolution</th>
+				</tr>
+			</thead>
+			<tfoot>
+			</tfoot>
+        <tbody>
+            <c:forEach items="${appointment}" var="doctor">
+                <tr class="alt">
+                    <td><c:out value="${doctor.patientName}" /></td>
+                    <td><c:out value="${doctor.appointmentType}" /></td>
+                    <td><c:out value="${doctor.description}" /></td>
+                    <td><a target="new" href="${pageContext.request.contextPath}/pdfController?path=<c:out value="${doctor.medicalReports}"/>">View</a></td>
+                    <td><a href="caseResolutionController?type=new&patientName=${ doctor.patientName}&appointmentId=<c:out value="${doctor.appointmentId}"/>">Case Resolution</a></td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+    </center>
+
+</body>
+
+</html>

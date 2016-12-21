@@ -1,0 +1,44 @@
+<%@ include file="header.jsp" %> 
+<c:choose>
+    <c:when test="${role=='patient'}">
+    <%@ include file="patientnavbar.jsp" %>
+    </c:when>
+    <c:otherwise>
+ 		<%@ include file="doctornavbar.jsp" %>
+    </c:otherwise>
+</c:choose>
+
+ <link rel="stylesheet" href="./scripts/omss_table.css">
+
+ <center>
+ <br><br><br>
+ <h3><u>Patient's FeedBack</u></h3>
+ 
+ 
+ 
+<table class="omss_grid">
+			<thead>
+				<tr>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Review</th>
+                <th>Rating</th>
+				</tr>
+			</thead>
+			<tfoot>
+			</tfoot>
+        <tbody>
+            <c:forEach items="${feedBacks}" var="doctor">
+                <tr class="alt">
+                    <td><c:out value="${doctor.patientName}" /></td>
+                    <td><c:out value="${doctor.doctorName}" /></td>
+                    <td><c:out value="${doctor.review}" /></td>
+                    <td><c:out value="${doctor.rating}" /></td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+ 
+ </center>
+ </body>
+ </html>

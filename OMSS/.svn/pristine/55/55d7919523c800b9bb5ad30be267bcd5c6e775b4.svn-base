@@ -1,0 +1,20 @@
+<%@ include file="header.jsp" %>
+<%@ include file="patientnavbar.jsp" %>
+
+
+<span >${msg} </span>
+<br>
+<center >
+<h2>Welcome to Online Medical Service System..!</h2> <h3>${username }</h3>
+
+<img alt="" src="./images/omsslogo.png" width="300" height="150">
+</center>
+</body>
+<br><br><br>
+<center>
+<button type="button" class="button" value="back" onClick="history.go(-1);">Back</button>
+<button type="submit" class="button" value="logoffController">Exit</button>&nbsp;&nbsp;
+</center>
+
+
+</html>
